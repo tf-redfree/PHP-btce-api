@@ -7,6 +7,9 @@
  */
 class BTCeAPI {
     
+    const DIRECTION_BUY = 'buy';
+    const DIRECTION_SELL = 'sell';
+    
     protected $api_key;
     protected $api_secret;
     protected $noonce;
@@ -130,15 +133,19 @@ class BTCeAPI {
      * @return type 
      */
     public function makeOrder($amount, $pair, $direction, $price) {
-        $data = $this->apiQuery("Trade"
-                ,array(
-                    'pair' => $pair,
-                    'type' => $direction,
-                    'rate' => $price,
-                    'amount' => $amount
-                )
-        );
-        return $data;
+        if($direction == self::DIRECTION_BUY || $direction == self::DIRECTION_SELL) {
+            $data = $this->apiQuery("Trade"
+                    ,array(
+                        'pair' => $pair,
+                        'type' => $direction,
+                        'rate' => $price,
+                        'amount' => $amount
+                    )
+            );
+            return $data; 
+        } else {
+            throw new BTCeAPIInvalidParameterException('Expected constant from '.__CLASS__.'::DIRECTION_BUY or '.__CLASS__.'::DIRECTION_SELL. Found: '.$direction);
+        }
     }
     
     /**
@@ -156,7 +163,7 @@ class BTCeAPI {
                     'active' => 0
                 ));
         if($data['success'] == "0") {
-            throw new Exception("Error: ".$data['error']);
+            throw new BTCeAPIErrorException("Error: ".$data['error']);
         } else {
             return($data);
         }
@@ -170,4 +177,5 @@ class BTCeAPIException extends Exception {}
 class BTCeAPIFailureException extends BTCeAPIException {}
 class BTCeAPIInvalidJSONException extends BTCeAPIException {}
 class BTCeAPIErrorException extends BTCeAPIException {}
+class BTCeAPIInvalidParameterException extends BTCeAPIException {}
 ?>
