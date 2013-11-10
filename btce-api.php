@@ -9,6 +9,7 @@ class BTCeAPI {
     
     const DIRECTION_BUY = 'buy';
     const DIRECTION_SELL = 'sell';
+    protected $public_api = 'https://btc-e.com/api/2/';
     
     protected $api_key;
     protected $api_secret;
@@ -169,6 +170,42 @@ class BTCeAPI {
         } else {
             return($data);
         }
+    }
+    
+    /**
+     * Public API: Retrieve the Fee for a currency pair
+     * @param string $pair
+     * @return array 
+     */
+    public function getPairFee($pair) {
+        return $this->retrieveJSON($this->public_api.$pair."/fee");
+    }
+    
+    /**
+     * Public API: Retrieve the Ticker for a currency pair
+     * @param string $pair
+     * @return array 
+     */
+    public function getPairTicker($pair) {
+        return $this->retrieveJSON($this->public_api.$pair."/ticker");
+    }
+    
+    /**
+     * Public API: Retrieve the Trades for a currency pair
+     * @param string $pair
+     * @return array 
+     */
+    public function getPairTrades($pair) {
+        return $this->retrieveJSON($this->public_api.$pair."/trades");
+    }
+    
+    /**
+     * Public API: Retrieve the Depth for a currency pair
+     * @param string $pair
+     * @return array 
+     */
+    public function getPairDepth($pair) {
+        return $this->retrieveJSON($this->public_api.$pair."/depth");
     }
 }
 
