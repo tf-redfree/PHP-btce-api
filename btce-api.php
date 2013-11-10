@@ -113,7 +113,7 @@ class BTCeAPI {
      * @param type $URL
      * @return type 
      */
-    public function retrieveJSON($URL) {
+    protected function retrieveJSON($URL) {
         $opts = array('http' =>
             array(
                 'method'  => 'GET',
