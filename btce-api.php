@@ -72,13 +72,15 @@ class BTCeAPI {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
  
         // Send API Request
-        $res = curl_exec($ch);
-        // Close CURL Handler
-        curl_close($ch);
+        $res = curl_exec($ch);        
         
-        // Check for failure
+        // Check for failure & Clean-up curl handler
         if($res === false) {
-            throw new BTCeAPIFailureException('Could not get reply: '.curl_error($ch));
+            $e = curl_error($ch);
+            curl_close();
+            throw new BTCeAPIFailureException('Could not get reply: '.$e);
+        } else {
+            curl_close($ch);
         }
         
         // Decode the JSON
