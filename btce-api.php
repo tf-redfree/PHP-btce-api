@@ -78,7 +78,7 @@ class BTCeAPI {
         // Check for failure & Clean-up curl handler
         if($res === false) {
             $e = curl_error($ch);
-            curl_close();
+            curl_close($ch);
             throw new BTCeAPIFailureException('Could not get reply: '.$e);
         } else {
             curl_close($ch);
