@@ -152,6 +152,19 @@ class BTCeAPI {
     }
     
     /**
+     * Cancel an order
+     * @param type $order_id
+     * @return type 
+     */
+    public function cancelOrder($order_id) {
+        return $this->apiQuery("CancelOrder"
+                    ,array(
+                        'order_id' => $order_id
+                    )
+               );
+    }
+    
+    /**
      * Check an order that is complete (non-active)
      * @param type $orderID
      * @return type
