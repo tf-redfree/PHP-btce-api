@@ -95,7 +95,7 @@ class BTCeAPI {
         if(isset($result['error']) === true) {
             if(strpos($result['error'], 'nonce') > -1 && $this->RETRY_FLAG === false) {
                 $matches = array();
-                $k = preg_match('/:([0-9]+),/', $result['error'], $matches);
+                $k = preg_match('/you\s+should\s+send:([0-9]+)/', $result['error'], $matches);
                 $this->RETRY_FLAG = true;
                 trigger_error("Nonce we sent ({$this->noonce}) is invalid, retrying request with server returned nonce: ({$matches[1]})!");
                 $this->noonce = $matches[1];
